@@ -28,3 +28,9 @@ M:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.csprojResolveAssemblyReferen
 D:\XMLFilter_v2\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
 D:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
 D:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+C:\Users\student\Documents\GitHub\XML_New\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+C:\Users\student\Documents\GitHub\XML_New\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+C:\Users\student\Documents\GitHub\XML_New\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+C:\Users\student\Documents\GitHub\XML_New\XMLFilter_v1\obj\Debug\XMLFilter_v1.csprojResolveAssemblyReference.cache
+C:\Users\student\Documents\GitHub\XML_New\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe
+C:\Users\student\Documents\GitHub\XML_New\XMLFilter_v1\bin\Debug\XMLFilter_v1.pdb

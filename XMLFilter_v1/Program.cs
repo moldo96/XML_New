@@ -16,19 +16,15 @@ namespace XMLFilter_v1
         {
             int noOfBlocksCovered = 0, noOfBlocksNotCovered = 0;
             string string_name = "";
-            foreach (XmlNode childNode in node)
-            {
-                if (NodeNameHasValue(childNode, string_to_find))
-                    string_name = childNode.InnerText;
-                if (NodeNameHasValue(childNode, "BlocksCovered"))
-                    Int32.TryParse(childNode.InnerText, out noOfBlocksCovered);
-                if (NodeNameHasValue(childNode, "BlocksNotCovered"))
-                    Int32.TryParse(childNode.InnerText.ToString(), out noOfBlocksNotCovered);
-            }
+            
+            noOfBlocksCovered = GetNumberData(xmlDocument, node, "BlocksCovered");
+            noOfBlocksNotCovered = GetNumberData(xmlDocument, node, "BlocksNotCovered");
+            string_name = GetNameData(xmlDocument, node, string_to_find);
+
             string_to_find = string_to_find.Remove(string_to_find.Length - 4);
             if (string_to_find == "Class")
             {
-                Console.SetCursorPosition(6, Console.CursorTop + 1);
+                Console.SetCursorPosition(6, Console.CursorTop+1);
             }
             Console.Write("{0}: {1}", string_to_find, string_name);
             Console.SetCursorPosition(50, Console.CursorTop);
@@ -39,17 +35,18 @@ namespace XMLFilter_v1
         }
 
 
+
         private static void Reading(XmlDocument xmlDocument, XmlNode node)
         {
             Console.Write("\n");
             Search(xmlDocument, node, "ModuleName");
             foreach (XmlNode childNode in node)
             {
-                if (childNode.Name == "NamespaceTable")
+                if (NodeNameHasValue(childNode, "NamespaceTable"))
                 {
                     foreach (XmlNode childOfChildNode in childNode)
                     {
-                        if (childOfChildNode.Name == "Class")
+                        if (NodeNameHasValue( childOfChildNode,"Class"))
                         {
                             Search(xmlDocument, childOfChildNode, "ClassName");
                         }
@@ -163,6 +160,20 @@ namespace XMLFilter_v1
             }
         }
 
+        private static IEnumerable<XmlNode> FilterNodes(XmlDocument xmlDocument, string nodeName, XmlNode rootNode)
+        {
+            if (!rootNode.HasChildNodes)
+                rootNode = xmlDocument.DocumentElement;
+        
+            foreach (XmlNode childNode in rootNode)
+            {
+                if (NodeNameHasValue(childNode, nodeName))
+                {
+                    yield return childNode;
+                }
+            }
+        }
+
         private static void Process(XmlDocument xmlDocument, string ending, XmlNode childNode)
         {
             //TODO si daca nu e primul? :1st attempt
@@ -177,6 +188,16 @@ namespace XMLFilter_v1
         private static bool NodeNameHasValue(XmlNode childNode, string name)
         {
             return childNode.Name == name;
+        }
+
+        private static int GetNumberData(XmlDocument xmlDocument, XmlNode node, string stringh)
+        {
+            return Int32.Parse(FilterNodes(xmlDocument, stringh, node).First().InnerText);
+        }
+
+        private static string GetNameData(XmlDocument xmlDocument, XmlNode node, string stringh)
+        {
+            return FilterNodes(xmlDocument, stringh, node).First().InnerText;
         }
     }
 }
