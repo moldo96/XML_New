@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Text.RegularExpressions;
-///o
+
 namespace XMLFilter_v1
 {
     class Program
@@ -147,7 +147,7 @@ namespace XMLFilter_v1
             }
         }
 
-        //TODO use this method wherever possible to avoid duplication
+        //TODO use this method wherever possible to avoid duplication: 1st attempt
         private static IEnumerable<XmlNode> FilterNodes(XmlDocument xmlDocument, string nodeName)
         {
             XmlNode rootNode = xmlDocument.DocumentElement;
