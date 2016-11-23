@@ -1,0 +1,30 @@
+c:\users\student\documents\visual studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+c:\users\student\documents\visual studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe
+c:\users\student\documents\visual studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.pdb
+c:\users\student\documents\visual studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+c:\users\student\documents\visual studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+c:\users\student\documents\visual studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.csprojResolveAssemblyReference.cache
+C:\Users\Andrei\Documents\Visual Studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+C:\Users\Andrei\Documents\Visual Studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+C:\Users\Andrei\Documents\Visual Studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+C:\Users\Andrei\Documents\Visual Studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe
+C:\Users\Andrei\Documents\Visual Studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.pdb
+C:\Users\Andrei\Documents\Visual Studio 2012\Projects\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.csprojResolveAssemblyReference.cache
+D:\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+D:\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+D:\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+D:\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe
+D:\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.pdb
+D:\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.csprojResolveAssemblyReference.cache
+M:\XMLFilter_v1\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+M:\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+M:\XMLFilter_v1\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+M:\XMLFilter_v2\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+M:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+M:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
+M:\XMLFilter_v2\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe
+M:\XMLFilter_v2\XMLFilter_v1\bin\Debug\XMLFilter_v1.pdb
+M:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.csprojResolveAssemblyReference.cache
+D:\XMLFilter_v2\XMLFilter_v1\bin\Debug\XMLFilter_v1.exe.config
+D:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.exe
+D:\XMLFilter_v2\XMLFilter_v1\obj\Debug\XMLFilter_v1.pdb
