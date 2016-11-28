@@ -9,32 +9,36 @@ using System.Text.RegularExpressions;
 
 namespace XMLFilter_v1
 {
+    //TODO extract several classes
     class Program
     {
-
         private static void Search(XmlDocument xmlDocument, XmlNode node, string string_to_find)
         {
-            int noOfBlocksCovered = 0, noOfBlocksNotCovered = 0;
-            string string_name = "";
-            
-            noOfBlocksCovered = GetNumberData(xmlDocument, node, "BlocksCovered");
-            noOfBlocksNotCovered = GetNumberData(xmlDocument, node, "BlocksNotCovered");
-            string_name = GetNameData(xmlDocument, node, string_to_find);
-
-            string_to_find = string_to_find.Remove(string_to_find.Length - 4);
-            if (string_to_find == "Class")
+            try
             {
-                Console.SetCursorPosition(6, Console.CursorTop+1);
+                int noOfBlocksCovered = 0, noOfBlocksNotCovered = 0;
+                string string_name = "";
+                string_name = GetNameData(xmlDocument, node, string_to_find);
+                noOfBlocksCovered = GetNumberData(xmlDocument, node, "BlocksCovered");
+                noOfBlocksNotCovered = GetNumberData(xmlDocument, node, "BlocksNotCovered");
+
+                string_to_find = string_to_find.Remove(string_to_find.Length - 4);
+                if (string_to_find == "Class")
+                {
+                    Console.SetCursorPosition(6, Console.CursorTop + 1);
+                }
+                Console.Write("{0}: {1}", string_to_find, string_name);
+                Console.SetCursorPosition(50, Console.CursorTop);
+                Console.Write("Blocks covered: " + String.Format("{0:0.##%}", (float)noOfBlocksCovered / (noOfBlocksCovered + noOfBlocksNotCovered)));
+                if (noOfBlocksCovered != 0)
+                    Console.Write(" ({0}/{1})", noOfBlocksCovered, noOfBlocksCovered + noOfBlocksNotCovered);
+                //Console.Write("\n"); //to see more clear, remove comment tags. 
             }
-            Console.Write("{0}: {1}", string_to_find, string_name);
-            Console.SetCursorPosition(50, Console.CursorTop);
-            Console.Write("Blocks covered: " + String.Format("{0:0.##%}", (float)noOfBlocksCovered / (noOfBlocksCovered + noOfBlocksNotCovered)));
-            if (noOfBlocksCovered != 0)
-                Console.Write(" ({0}/{1})", noOfBlocksCovered, noOfBlocksCovered + noOfBlocksNotCovered);
-            //Console.Write("\n"); //to see more clear, remove comment tags. 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
-
-
 
         private static void Reading(XmlDocument xmlDocument, XmlNode node)
         {
@@ -75,7 +79,7 @@ namespace XMLFilter_v1
                     Console.WriteLine(pathname);
                     string option = Console.ReadLine();
 
-                    if (option.ToUpper() != "NO")
+                    if (!option.ToUpper().Equals("NO"))
                     {
                         Console.WriteLine("Path chosen to open XML");
                         xmlDocument.Load(pathname);
@@ -84,7 +88,6 @@ namespace XMLFilter_v1
                 }
                 else if (Directory.Exists(pathname))
                 {
-                    //int i = 0;
                     if (!pathname.EndsWith("\\"))
                     {
                         pathname += '\\';
@@ -111,30 +114,35 @@ namespace XMLFilter_v1
                     }
                     else
                     {
-                        Console.WriteLine("No file was found with the extension .coveragexml in this directory,\nPlease, press any key");
-                        Console.ReadKey();
+                        ErrorMessage("No file was found with the extension .coveragexml in this directory,\nPlease, press any key");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid path, press any key");
-                    Console.ReadKey();
+                    ErrorMessage("Invalid path, press any key");
                 }
 
             }while (true);
 
             
             Console.Clear();
-            string ending = "test.dll";
+            string string_compared = "test.dll";
             Console.WriteLine("Which ending do you want to neglect? (by default: test.dll)");
-            string g = Console.ReadLine().ToString();
-            if (!(g == null || g.Length == 0))
+            string input_Value;
+            input_Value = Console.ReadLine().ToString();
+            if (!(input_Value.Equals(null) || input_Value.Length == 0))
             {
-                ending = g;
+                string_compared = input_Value;
             }
 
-            ComputeCoverage(xmlDocument, ending);
+            ComputeCoverage(xmlDocument, string_compared);
 
+            Console.ReadKey();
+        }
+
+        private static void ErrorMessage(string Message)
+        {
+            Console.WriteLine(Message);
             Console.ReadKey();
         }
 
@@ -151,20 +159,17 @@ namespace XMLFilter_v1
         private static IEnumerable<XmlNode> FilterNodes(XmlDocument xmlDocument, string nodeName)
         {
             XmlNode rootNode = xmlDocument.DocumentElement;
-            foreach (XmlNode childNode in rootNode)
-            {
-                if (NodeNameHasValue(childNode, nodeName))
-                {
-                    yield return childNode;
-                }
-            }
+            return FilterNodes(xmlDocument, nodeName, rootNode);
         }
 
         private static IEnumerable<XmlNode> FilterNodes(XmlDocument xmlDocument, string nodeName, XmlNode rootNode)
         {
-            if (!rootNode.HasChildNodes)
-                rootNode = xmlDocument.DocumentElement;
-        
+            ThrowExceptionIfNodeHasNoChildren(rootNode);
+            return FilterChildNodesByName(nodeName, rootNode);
+        }
+
+        private static IEnumerable<XmlNode> FilterChildNodesByName(string nodeName, XmlNode rootNode)
+        {
             foreach (XmlNode childNode in rootNode)
             {
                 if (NodeNameHasValue(childNode, nodeName))
@@ -174,14 +179,26 @@ namespace XMLFilter_v1
             }
         }
 
-        private static void Process(XmlDocument xmlDocument, string ending, XmlNode childNode)
+        private static void ThrowExceptionIfNodeHasNoChildren(XmlNode rootNode)
+        {
+            if (!rootNode.HasChildNodes)
+            {
+                throw new Exception("Root node" + rootNode.Name + "has no children. Coverage not computed.");
+            }
+        }
+
+        private static void Process(XmlDocument xmlDocument, string stringEnding, XmlNode childNode)
         {
             //TODO si daca nu e primul? :1st attempt
-            XmlNode moduleNameNode = FilterNodes(xmlDocument, "Module").First();
-            //TODO make it work for upper & lower case: DONE
-            if (!(moduleNameNode.InnerText.ToUpper().EndsWith(ending.ToUpper())))
+            //XmlNode moduleNameNode = FilterNodes(xmlDocument, "Module").Last();
+            IEnumerable<XmlNode> myList = FilterNodes(xmlDocument, "Module");
+            foreach (XmlNode node1 in myList)
             {
-                Reading(xmlDocument, childNode);
+                Console.WriteLine(myList.Count());
+                if (!(node1.InnerText.ToUpper().EndsWith(stringEnding.ToUpper())))
+                {
+                    Reading(xmlDocument, childNode);
+                }
             }
         }
 
