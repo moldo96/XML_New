@@ -21,7 +21,6 @@ namespace XMLFilter_v1
                 string_name = GetNameData(xmlDocument, node, string_to_find);
                 noOfBlocksCovered = GetNumberData(xmlDocument, node, "BlocksCovered");
                 noOfBlocksNotCovered = GetNumberData(xmlDocument, node, "BlocksNotCovered");
-
                 string_to_find = string_to_find.Remove(string_to_find.Length - 4);
                 if (string_to_find == "Class")
                 {
@@ -70,8 +69,6 @@ namespace XMLFilter_v1
                 Console.WriteLine("Type the path to the XML file, or folder");
                 string pathname = "";
                 pathname = Console.ReadLine();
-                
-                //int number;
 
                 if (File.Exists(pathname))
                 {
@@ -128,7 +125,7 @@ namespace XMLFilter_v1
             Console.Clear();
             string string_compared = "test.dll";
             Console.WriteLine("Which ending do you want to neglect? (by default: test.dll)");
-            string input_Value;
+            string input_Value = "";
             input_Value = Console.ReadLine().ToString();
             if (!(input_Value.Equals(null) || input_Value.Length == 0))
             {
@@ -148,20 +145,14 @@ namespace XMLFilter_v1
 
         private static void ComputeCoverage(XmlDocument xmlDocument, string ending)
         {
-            IEnumerable<XmlNode> filteredNodes = FilterNodes(xmlDocument, "Module");
+            IEnumerable<XmlNode> filteredNodes = FilterNodes(xmlDocument, "Module", xmlDocument.DocumentElement);
             foreach (XmlNode node in filteredNodes)
             {
-                Process(xmlDocument, ending, node);
+                EliminateRequestedModule(xmlDocument, ending, node);
             }
         }
 
         //TODO use this method wherever possible to avoid duplication: 1st attempt
-        private static IEnumerable<XmlNode> FilterNodes(XmlDocument xmlDocument, string nodeName)
-        {
-            XmlNode rootNode = xmlDocument.DocumentElement;
-            return FilterNodes(xmlDocument, nodeName, rootNode);
-        }
-
         private static IEnumerable<XmlNode> FilterNodes(XmlDocument xmlDocument, string nodeName, XmlNode rootNode)
         {
             ThrowExceptionIfNodeHasNoChildren(rootNode);
@@ -170,6 +161,7 @@ namespace XMLFilter_v1
 
         private static IEnumerable<XmlNode> FilterChildNodesByName(string nodeName, XmlNode rootNode)
         {
+            ThrowExceptionIfNodeHasNoChildren(rootNode);
             foreach (XmlNode childNode in rootNode)
             {
                 if (NodeNameHasValue(childNode, nodeName))
@@ -187,20 +179,22 @@ namespace XMLFilter_v1
             }
         }
 
-        private static void Process(XmlDocument xmlDocument, string stringEnding, XmlNode childNode)
+        private static void EliminateRequestedModule(XmlDocument xmlDocument, string stringEnding, XmlNode childNode)
         {
             //TODO si daca nu e primul? :1st attempt
-            //XmlNode moduleNameNode = FilterNodes(xmlDocument, "Module").Last();
-            IEnumerable<XmlNode> myList = FilterNodes(xmlDocument, "Module");
-            foreach (XmlNode node1 in myList)
+            foreach (XmlNode node1 in childNode)
             {
-                Console.WriteLine(myList.Count());
-                if (!(node1.InnerText.ToUpper().EndsWith(stringEnding.ToUpper())))
+                if (NodeNameHasValue(node1, "ModuleName"))
                 {
-                    Reading(xmlDocument, childNode);
+                    Match m = Regex.Match(node1.InnerText, @stringEnding + "$");
+                    if (!m.Success)
+                    {
+                        Reading(xmlDocument, childNode);
+                    }
                 }
             }
         }
+        
 
         private static bool NodeNameHasValue(XmlNode childNode, string name)
         {
